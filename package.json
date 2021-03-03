@@ -1,0 +1,27 @@
+{
+  "name": "flashcards-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeeStratman/flashcards-api.git"
+  },
+  "author": "Lee Stratman <lee.stratman@protonmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LeeStratman/flashcards-api/issues"
+  },
+  "homepage": "https://github.com/LeeStratman/flashcards-api#readme",
+  "dependencies": {
+    "config": "^3.3.4",
+    "express": "^4.17.1",
+    "joi": "^17.4.0",
+    "mongoose": "^5.11.18",
+    "nodemon": "^2.0.7"
+  }
+}

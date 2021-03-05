@@ -1,19 +1,4 @@
 const Collection = require("../models/collection");
+const crudControllers = require("./crud");
 
-const getCollectionById = (id) => {
-  return Collection.findById(id);
-};
-
-const getAllCollections = () => {
-  return Collection.find();
-};
-
-const createCollection = (collection) => {
-  return Collection.create(collection);
-};
-
-module.exports = {
-  getAllCollections,
-  getCollectionById,
-  createCollection,
-};
+module.exports = crudControllers(Collection);

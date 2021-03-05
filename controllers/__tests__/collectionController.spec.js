@@ -1,6 +1,6 @@
 const Collection = require("../../models/collection");
 const collectionController = require("../collectionController");
-const crudControllers = require("../crud");
+const crudControllers = require("../../utils/crud");
 
 describe("Collection crud", () => {
   describe("getAllCollections", () => {

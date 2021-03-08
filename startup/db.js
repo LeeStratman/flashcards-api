@@ -7,9 +7,9 @@ function connectDB() {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
-    .then(() => console.log("Connected to MongoDB..."))
+    .then(() => console.log("Connected to database..."))
     .catch((err) => {
-      console.log(`Could not connect to MongoDB. ERROR: ${err}`);
+      console.log(`Could not connect to database. ERROR: ${err}`);
       process.exit(1);
     });
 }

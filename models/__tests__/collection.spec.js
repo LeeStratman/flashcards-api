@@ -1,4 +1,4 @@
-const Collection = require("../collection");
+const { Collection } = require("../collection");
 
 describe("Collection model", () => {
   test("name must be required", async () => {

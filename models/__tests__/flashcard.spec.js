@@ -1,4 +1,4 @@
-const Flashcard = require("../flashcard");
+const { Flashcard } = require("../flashcard");
 
 describe("Flashcard model", () => {
   test("question must be required", async () => {

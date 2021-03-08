@@ -1,16 +1,13 @@
 const collectionController = require("../controllers/collectionController");
-const flashcardController = require("../controllers/flashcardController");
-const Flashcard = require("../models/flashcard");
+const { validateCollection } = require("../models/collection");
 const { Router } = require("express");
 const router = Router();
 
 router
   .route("/")
-  .get(collectionController.getMany)
-  .post(collectionController.createOne);
+  .get(collectionController.getAll)
+  .post(validateCollection, collectionController.createOne);
 
 router.route("/:id").get(collectionController.getOne);
-
-router.route("/:parentId/flashcards").post(flashcardController.getMany);
 
 module.exports = router;

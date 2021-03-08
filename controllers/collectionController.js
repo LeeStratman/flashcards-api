@@ -1,4 +1,4 @@
-const Collection = require("../models/collection");
-const crudControllers = require("../utils/crud");
+const { Collection } = require("../models/collection");
+const crudController = require("../utils/crud");
 
-module.exports = crudControllers(Collection);
+module.exports = crudController(Collection);

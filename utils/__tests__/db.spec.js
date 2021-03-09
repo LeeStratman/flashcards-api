@@ -22,8 +22,12 @@ describe("test without data", () => {
   });
 
   test("create a collection without a name", async () => {
-    const newCollection = await query.createOne(Collection, {});
-    expect(newCollection).toStrictEqual(expect.any(Error));
+    try {
+      await query.createOne(Collection, {});
+    } catch (err) {
+      console.log(err);
+      expect(err._message).toBe("Collection validation failed");
+    }
   });
 });
 
@@ -46,8 +50,11 @@ describe("test with data", () => {
   });
 
   test("get collection with invalid id", async () => {
-    const collection = await query.getOne(Collection, "");
-    expect(collection).toStrictEqual(expect.any(Error));
+    try {
+      await query.getOne(Collection, "");
+    } catch (err) {
+      expect(err).toStrictEqual(expect.any(Error));
+    }
   });
 
   test("get all collections", async () => {
@@ -75,9 +82,12 @@ describe("test with data", () => {
     expect(updateCollection).toBeTruthy();
   });
   test("update collection with invalid id", async () => {
-    await query.getAll(Collection);
-    const updateCollection = await query.updateOne(Collection, "", {});
-    expect(updateCollection).toStrictEqual(expect.any(Error));
+    try {
+      await query.getAll(Collection);
+      await query.updateOne(Collection, "", {});
+    } catch (err) {
+      expect(err).toStrictEqual(expect.any(Error));
+    }
   });
 
   test("update non-existent collection", async () => {
@@ -101,10 +111,12 @@ describe("test with data", () => {
   });
 
   test("remove collection with invalid id", async () => {
-    await query.getAll(Collection);
-    const removeCollection = await query.removeOne(Collection, "");
-
-    expect(removeCollection).toStrictEqual(expect.any(Error));
+    try {
+      await query.getAll(Collection);
+      await query.removeOne(Collection, "");
+    } catch (err) {
+      expect(err).toStrictEqual(expect.any(Error));
+    }
   });
 
   test("remove non-existent collection", async () => {
@@ -113,6 +125,6 @@ describe("test with data", () => {
       "000000000000000000000000"
     );
 
-    expect(removeCollection).toBe(null);
+    expect(removeCollection.deletedCount).toBe(0);
   });
 });

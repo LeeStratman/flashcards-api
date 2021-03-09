@@ -1,7 +1,8 @@
 const query = require("./db");
 
-const getOne = (model) => async (req, res) => {
+const getOne = (model) => async (req, res, next) => {
   const { id } = req.params;
+
   try {
     const result = await query.getOne(model, id);
 
@@ -13,48 +14,36 @@ const getOne = (model) => async (req, res) => {
       });
     }
 
-    if (result instanceof Error)
-      return res.status(400).json({ data: { error: result.message } });
-
     return res.status(200).json({ data: result });
   } catch (err) {
-    return res.status(500).json({ data: { error: err.message } });
+    return next(err);
   }
 };
 
-const getAll = (model) => async (req, res) => {
+const getAll = (model) => async (req, res, next) => {
   try {
     const result = await query.getAll(model);
 
-    if (result instanceof Error)
-      return res.status(400).json({ data: { error: result.message } });
-
     return res.status(200).json({ data: result });
   } catch (err) {
-    return res.status(500).json({ data: { error: err.message } });
+    return next(err);
   }
 };
 
-const createOne = (model) => async (req, res) => {
+const createOne = (model) => async (req, res, next) => {
   try {
     const result = await query.createOne(model, req.body);
 
-    if (result instanceof Error)
-      return res.status(400).json({ data: { error: result.message } });
-
     return res.status(201).json({ data: result });
   } catch (err) {
-    return res.status(500).json({ data: { error: err.message } });
+    return next(err);
   }
 };
 
-const updateOne = (model) => async (req, res) => {
+const updateOne = (model) => async (req, res, next) => {
   const { id } = req.params;
   try {
     const result = await query.updateOne(model, id, req.body);
-
-    if (result instanceof Error)
-      return res.status(400).json({ data: { error: result.message } });
 
     if (!result)
       return res.status(404).json({
@@ -65,19 +54,16 @@ const updateOne = (model) => async (req, res) => {
 
     res.status(200).json({ data: result });
   } catch (err) {
-    res.status(500).json({ data: { error: err.message } });
+    return next(err);
   }
 };
 
-const removeOne = (model) => async (req, res) => {
+const removeOne = (model) => async (req, res, next) => {
   const { id } = req.params;
   try {
     const result = await query.removeOne(model, id);
 
-    if (result instanceof Error)
-      return res.status(400).json({ data: { error: result.message } });
-
-    if (!result)
+    if (result.deletedCount === 0)
       return res.status(404).json({
         data: {
           error: `The ${model.modelName} with id '${id}' does not exist`,
@@ -86,11 +72,11 @@ const removeOne = (model) => async (req, res) => {
 
     return res.status(200).json({ data: result });
   } catch (err) {
-    return res.status(500).json({ data: { error: err.message } });
+    return next(err);
   }
 };
 
-module.exports = crudControllers = (model) => ({
+module.exports = (model) => ({
   removeOne: removeOne(model),
   updateOne: updateOne(model),
   getAll: getAll(model),

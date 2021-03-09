@@ -3,9 +3,9 @@ const query = require("./db");
 const getOne = (model) => async (req, res) => {
   const { id } = req.params;
   try {
-    const doc = await query.getOne(model, id);
+    const result = await query.getOne(model, id);
 
-    if (!doc) {
+    if (!result) {
       return res.status(404).json({
         data: {
           error: `The ${model.modelName} with id '${id}' does not exist`,
@@ -13,76 +13,80 @@ const getOne = (model) => async (req, res) => {
       });
     }
 
-    if (doc instanceof Error) return res.status(400).json({ data: doc });
+    if (result instanceof Error)
+      return res.status(400).json({ data: { error: result.message } });
 
-    return res.status(200).json({ data: doc });
+    return res.status(200).json({ data: result });
   } catch (err) {
-    return res.status(500).json({ data: err });
+    return res.status(500).json({ data: { error: err.message } });
   }
 };
 
 const getAll = (model) => async (req, res) => {
   try {
-    const docs = await query.getAll(model);
+    const result = await query.getAll(model);
 
-    return res.status(200).json({ data: docs });
+    if (result instanceof Error)
+      return res.status(400).json({ data: { error: result.message } });
+
+    return res.status(200).json({ data: result });
   } catch (err) {
-    return res.status(500).json({ data: err });
+    return res.status(500).json({ data: { error: err.message } });
   }
 };
 
 const createOne = (model) => async (req, res) => {
   try {
-    const doc = await query.createOne(model, req.body);
+    const result = await query.createOne(model, req.body);
 
-    if (doc instanceof Error)
-      return res.status(400).json({ data: { error: "Invalid parameters" } });
+    if (result instanceof Error)
+      return res.status(400).json({ data: { error: result.message } });
 
-    return res.status(201).json({ data: doc });
+    return res.status(201).json({ data: result });
   } catch (err) {
-    return res.status(500).json({ data: err });
+    return res.status(500).json({ data: { error: err.message } });
   }
 };
 
 const updateOne = (model) => async (req, res) => {
   const { id } = req.params;
   try {
-    const updatedDoc = await query.updateOne(model, id, req.body);
+    const result = await query.updateOne(model, id, req.body);
 
-    if (updatedDoc instanceof Error)
-      return res.status(400).json({ data: { error: "Invalid params" } });
+    if (result instanceof Error)
+      return res.status(400).json({ data: { error: result.message } });
 
-    if (!updatedDoc)
+    if (!result)
       return res.status(404).json({
         data: {
           error: `The ${model.modelName} with id '${id}' does not exist`,
         },
       });
 
-    res.status(200).json({ data: updatedDoc });
+    res.status(200).json({ data: result });
   } catch (err) {
-    res.status(500).json({ data: err });
+    res.status(500).json({ data: { error: err.message } });
   }
 };
 
 const removeOne = (model) => async (req, res) => {
   const { id } = req.params;
   try {
-    const removed = await query.removeOne(model, id);
+    const result = await query.removeOne(model, id);
 
-    if (removed instanceof Error)
-      return res.status(400).json({ data: removed });
+    if (result instanceof Error)
+      return res.status(400).json({ data: { error: result.message } });
 
-    if (!removed)
+    if (!result)
       return res.status(404).json({
         data: {
           error: `The ${model.modelName} with id '${id}' does not exist`,
         },
       });
 
-    return res.status(200).json({ data: removed });
+    return res.status(200).json({ data: result });
   } catch (err) {
-    return res.status(500).json({ data: err });
+    return res.status(500).json({ data: { error: err.message } });
   }
 };
 

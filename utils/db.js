@@ -1,27 +1,24 @@
 const getOne = async (model, id) => {
   try {
-    return await model.findOne({ _id: id }).exec();
-  } catch (error) {
-    console.error(error);
-    return undefined;
+    return await model.findById(id).exec();
+  } catch (err) {
+    return err;
   }
 };
 
 const getAll = async (model) => {
   try {
     return await model.find({}).exec();
-  } catch (error) {
-    console.error(error);
-    return undefined;
+  } catch (err) {
+    return err;
   }
 };
 
 const createOne = async (model, fields) => {
   try {
     return await model.create({ ...fields });
-  } catch (error) {
-    console.error(error);
-    return undefined;
+  } catch (err) {
+    return err;
   }
 };
 
@@ -34,9 +31,8 @@ const updateOne = async (model, id, params) => {
       params,
       { new: true }
     );
-  } catch (error) {
-    console.error(error);
-    return undefined;
+  } catch (err) {
+    return err;
   }
 };
 
@@ -45,9 +41,8 @@ const removeOne = async (model, id) => {
     return await model.findOneAndRemove({
       _id: id,
     });
-  } catch (error) {
-    console.error(error);
-    return undefined;
+  } catch (err) {
+    return err;
   }
 };
 

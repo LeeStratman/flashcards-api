@@ -5,12 +5,13 @@ const getOne = (model) => async (req, res) => {
   try {
     const doc = await query.getOne(model, id);
 
-    if (!doc)
+    if (!doc) {
       return res.status(404).json({
-        data: new Error(
-          `The ${model.modelName} with id '${id}' does not exist`
-        ),
+        data: {
+          error: `The ${model.modelName} with id '${id}' does not exist`,
+        },
       });
+    }
 
     if (doc instanceof Error) return res.status(400).json({ data: doc });
 
@@ -34,7 +35,8 @@ const createOne = (model) => async (req, res) => {
   try {
     const doc = await query.createOne(model, req.body);
 
-    if (doc instanceof Error) return res.status(400).json({ data: doc });
+    if (doc instanceof Error)
+      return res.status(400).json({ data: { error: "Invalid parameters" } });
 
     return res.status(201).json({ data: doc });
   } catch (err) {
@@ -48,13 +50,13 @@ const updateOne = (model) => async (req, res) => {
     const updatedDoc = await query.updateOne(model, id, req.body);
 
     if (updatedDoc instanceof Error)
-      return res.status(400).json({ data: updatedDoc });
+      return res.status(400).json({ data: { error: "Invalid params" } });
 
     if (!updatedDoc)
       return res.status(404).json({
-        data: new Error(
-          `The ${model.modelName} with id '${id}' does not exist`
-        ),
+        data: {
+          error: `The ${model.modelName} with id '${id}' does not exist`,
+        },
       });
 
     res.status(200).json({ data: updatedDoc });
@@ -73,9 +75,9 @@ const removeOne = (model) => async (req, res) => {
 
     if (!removed)
       return res.status(404).json({
-        data: new Error(
-          `The ${model.modelName} with id '${id}' does not exist`
-        ),
+        data: {
+          error: `The ${model.modelName} with id '${id}' does not exist`,
+        },
       });
 
     return res.status(200).json({ data: removed });

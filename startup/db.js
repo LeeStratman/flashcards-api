@@ -6,6 +6,8 @@ function connectDB() {
     .connect(config.get("mongoURI"), {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useCreateIndex: true,
+      useFindAndModify: false,
     })
     .then(() => console.log("Connected to database..."))
     .catch((err) => {

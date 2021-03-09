@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const config = require("config");
+const { Collection } = require("./models/collection");
 
 async function clearDB(connection) {
   for (const hash in connection.collections) {
@@ -11,10 +12,7 @@ const isDisconnected = (connection) => {
   return connection.readyState === 0 ? true : false;
 };
 
-/**
- * Runs a function before each of the tests in a file runs.
- */
-beforeEach(async (done) => {
+beforeAll(async () => {
   if (isDisconnected(mongoose.connection)) {
     try {
       await mongoose.connect(config.get("mongoURI"), {
@@ -22,24 +20,17 @@ beforeEach(async (done) => {
         useUnifiedTopology: true,
         useFindAndModify: false,
       });
-      await clearDB(mongoose.connection);
     } catch (e) {
       console.log("connection error");
       console.error(e);
       throw e;
     }
-  } else {
-    await clearDB(mongoose.connection);
   }
-  done();
+  return await clearDB(mongoose.connection);
 });
 
-afterEach(async (done) => {
-  await clearDB(mongoose.connection);
-  await mongoose.disconnect();
-  return done();
+afterAll(async () => {
+  return await mongoose.disconnect();
 });
 
-afterAll((done) => {
-  return done();
-});
+module.exports = clearDB;

@@ -3,7 +3,8 @@ function handleErrors(err, req, res, next) {
     return next(err);
   }
 
-  if (err instanceof Error) return res.status(400).json({ error: err.message });
+  if (err instanceof Error)
+    return res.status(400).json({ data: { error: err.message } });
 }
 
 module.exports = handleErrors;

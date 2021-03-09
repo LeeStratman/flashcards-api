@@ -16,7 +16,7 @@ describe("test without data", () => {
       json: jest.fn(() => res),
     };
 
-    const collections = await collectionController.getAll(req, res);
+    await collectionController.getAll(req, res);
 
     expect(res.status).toBeCalledWith(200);
     expect(res.status).toBeCalledTimes(1);
@@ -35,7 +35,7 @@ describe("test without data", () => {
       json: jest.fn(() => res),
     };
 
-    const newCollection = await collectionController.createOne(req, res);
+    await collectionController.createOne(req, res);
 
     expect(res.status).toBeCalledWith(201);
     expect(res.status).toBeCalledTimes(1);
@@ -53,7 +53,7 @@ describe("test without data", () => {
       json: jest.fn(() => res),
     };
 
-    const newCollection = await collectionController.createOne(req, res);
+    await collectionController.createOne(req, res);
 
     expect(res.status).toBeCalledWith(400);
     expect(res.status).toBeCalledTimes(1);
@@ -73,7 +73,7 @@ describe("test with data", () => {
       json: jest.fn(() => res),
     };
 
-    const collections = await collectionController.getAll(req, res);
+    await collectionController.getAll(req, res);
 
     expect(res.status).toBeCalledWith(200);
     expect(res.json).toBeCalledTimes(1);
@@ -92,7 +92,7 @@ describe("test with data", () => {
       json: jest.fn(() => res),
     };
 
-    const collection = await collectionController.getOne(req, res);
+    await collectionController.getOne(req, res);
     expect(res.status).toBeCalledWith(200);
     expect(res.status).toBeCalledTimes(1);
     expect(res.json).toBeCalledTimes(1);
@@ -109,7 +109,7 @@ describe("test with data", () => {
       json: jest.fn(() => res),
     };
 
-    const collection = await collectionController.getOne(req, res);
+    await collectionController.getOne(req, res);
     expect(res.status).toBeCalledWith(404);
     expect(res.status).toBeCalledTimes(1);
     expect(res.json).toBeCalledTimes(1);
@@ -130,12 +130,11 @@ describe("test with data", () => {
       status: jest.fn(() => res),
       json: jest.fn(() => res),
     };
+    const next = jest.fn(() => next);
 
-    const collection = await collectionController.getOne(req, res);
+    await collectionController.getOne(req, res, next);
 
-    expect(res.status).toBeCalledWith(400);
-    expect(res.status).toBeCalledTimes(1);
-    expect(res.json).toBeCalledTimes(1);
+    expect(res.status).toBeCalledTimes(0);
   });
 
   test("update a collection by id", async () => {
@@ -155,7 +154,7 @@ describe("test with data", () => {
       json: jest.fn(() => res),
     };
 
-    const collection = await collectionController.updateOne(req, res);
+    await collectionController.updateOne(req, res);
     expect(res.status).toBeCalledWith(200);
     expect(res.status).toBeCalledTimes(1);
     expect(res.json).toBeCalledTimes(1);
@@ -176,7 +175,7 @@ describe("test with data", () => {
       json: jest.fn(() => res),
     };
 
-    const collection = await collectionController.updateOne(req, res);
+    await collectionController.updateOne(req, res);
     expect(res.status).toBeCalledWith(400);
     expect(res.status).toBeCalledTimes(1);
     expect(res.json).toBeCalledTimes(1);
@@ -197,7 +196,7 @@ describe("test with data", () => {
       json: jest.fn(() => res),
     };
 
-    const collection = await collectionController.updateOne(req, res);
+    await collectionController.updateOne(req, res);
 
     expect(res.status).toBeCalledWith(404);
     expect(res.status).toBeCalledTimes(1);
@@ -216,7 +215,7 @@ describe("test with data", () => {
       json: jest.fn(() => res),
     };
 
-    const collection = await collectionController.removeOne(req, res);
+    await collectionController.removeOne(req, res);
 
     expect(res.status).toBeCalledWith(404);
     expect(res.status).toBeCalledTimes(1);
@@ -235,7 +234,7 @@ describe("test with data", () => {
       json: jest.fn(() => res),
     };
 
-    const collection = await collectionController.removeOne(req, res);
+    await collectionController.removeOne(req, res);
 
     expect(res.status).toBeCalledWith(400);
     expect(res.status).toBeCalledTimes(1);
@@ -256,7 +255,7 @@ describe("test with data", () => {
       json: jest.fn(() => res),
     };
 
-    const collection = await collectionController.removeOne(req, res);
+    await collectionController.removeOne(req, res);
 
     expect(res.status).toBeCalledWith(200);
     expect(res.status).toBeCalledTimes(1);

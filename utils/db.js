@@ -1,49 +1,25 @@
 const getOne = async (model, id) => {
-  try {
-    return await model.findById(id).exec();
-  } catch (err) {
-    return err;
-  }
+  return model.findById(id).exec();
 };
 
 const getAll = async (model) => {
-  try {
-    return await model.find({}).exec();
-  } catch (err) {
-    return err;
-  }
+  return model.find({}).exec();
 };
 
 const createOne = async (model, fields) => {
-  try {
-    return await model.create({ ...fields });
-  } catch (err) {
-    return err;
-  }
+  return model.create({ ...fields });
 };
 
 const updateOne = async (model, id, params) => {
-  try {
-    return await model.findOneAndUpdate(
-      {
-        _id: id,
-      },
-      params,
-      { new: true }
-    );
-  } catch (err) {
-    return err;
-  }
+  return model.findByIdAndUpdate(id, params).exec();
 };
 
 const removeOne = async (model, id) => {
-  try {
-    return await model.findOneAndRemove({
+  return model
+    .deleteOne({
       _id: id,
-    });
-  } catch (err) {
-    return err;
-  }
+    })
+    .exec();
 };
 
 module.exports = {

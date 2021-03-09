@@ -8,7 +8,7 @@ describe("test without data", () => {
   beforeEach(async () => {
     return await clearDB(mongoose.connection);
   });
-  test("get all collections with empty db", async () => {
+  test("get all collections", async () => {
     const collections = await query.getAll(Collection);
     expect(collections).toStrictEqual([]);
   });

@@ -53,11 +53,11 @@ describe("test without data", () => {
       json: jest.fn(() => res),
     };
 
-    await collectionController.createOne(req, res);
+    const next = jest.fn(() => next);
 
-    expect(res.status).toBeCalledWith(400);
-    expect(res.status).toBeCalledTimes(1);
-    expect(res.json).toBeCalledTimes(1);
+    await collectionController.createOne(req, res, next);
+
+    expect(next).toBeCalledTimes(1);
   });
 });
 
@@ -170,15 +170,13 @@ describe("test with data", () => {
       },
     };
 
-    const res = {
-      status: jest.fn(() => res),
-      json: jest.fn(() => res),
-    };
+    const res = {};
 
-    await collectionController.updateOne(req, res);
-    expect(res.status).toBeCalledWith(400);
-    expect(res.status).toBeCalledTimes(1);
-    expect(res.json).toBeCalledTimes(1);
+    const next = jest.fn(() => next);
+
+    await collectionController.updateOne(req, res, next);
+
+    expect(next).toBeCalledTimes(1);
   });
 
   test("update a non-existing collection with id", async () => {
@@ -215,8 +213,11 @@ describe("test with data", () => {
       json: jest.fn(() => res),
     };
 
-    await collectionController.removeOne(req, res);
+    const next = jest.fn(() => next);
 
+    await collectionController.removeOne(req, res, next);
+
+    expect(next).toBeCalledTimes(0);
     expect(res.status).toBeCalledWith(404);
     expect(res.status).toBeCalledTimes(1);
     expect(res.json).toBeCalledTimes(1);
@@ -229,16 +230,14 @@ describe("test with data", () => {
       },
     };
 
-    const res = {
-      status: jest.fn(() => res),
-      json: jest.fn(() => res),
-    };
+    const res = {};
 
-    await collectionController.removeOne(req, res);
+    const next = jest.fn(() => next);
 
-    expect(res.status).toBeCalledWith(400);
-    expect(res.status).toBeCalledTimes(1);
-    expect(res.json).toBeCalledTimes(1);
+    await collectionController.removeOne(req, res, next);
+
+    expect(next).toBeCalledTimes(1);
+    expect(next).toBeCalledWith(expect.any(Error));
   });
 
   test("remove a collection", async () => {

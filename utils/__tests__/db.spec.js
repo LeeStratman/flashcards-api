@@ -75,13 +75,13 @@ describe("test with data", () => {
     expect(updateCollection).toBeTruthy();
   });
   test("update collection with invalid id", async () => {
-    const collections = await query.getAll(Collection);
+    await query.getAll(Collection);
     const updateCollection = await query.updateOne(Collection, "", {});
     expect(updateCollection).toStrictEqual(expect.any(Error));
   });
 
   test("update non-existent collection", async () => {
-    const collections = await query.getAll(Collection);
+    await query.getAll(Collection);
     const updateCollection = await query.updateOne(
       Collection,
       "000000000000000000000000",
@@ -101,7 +101,7 @@ describe("test with data", () => {
   });
 
   test("remove collection with invalid id", async () => {
-    const collections = await query.getAll(Collection);
+    await query.getAll(Collection);
     const removeCollection = await query.removeOne(Collection, "");
 
     expect(removeCollection).toStrictEqual(expect.any(Error));

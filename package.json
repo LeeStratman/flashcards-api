@@ -20,6 +20,7 @@
   "homepage": "https://github.com/LeeStratman/flashcards-api#readme",
   "dependencies": {
     "config": "^3.3.4",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "joi": "^17.4.0",
     "mongoose": "^5.11.18",

@@ -11,7 +11,7 @@ const createOne = async (model, fields) => {
 };
 
 const updateOne = async (model, id, params) => {
-  return model.findByIdAndUpdate(id, params).exec();
+  return model.findByIdAndUpdate(id, params, { new: true }).exec();
 };
 
 const removeOne = async (model, id) => {

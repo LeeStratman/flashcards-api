@@ -8,13 +8,11 @@ const getOne = (model) => async (req, res, next) => {
 
     if (!result) {
       return res.status(404).json({
-        data: {
-          error: `The ${model.modelName} with id '${id}' does not exist`,
-        },
+        error: `The ${model.modelName} with id '${id}' does not exist`,
       });
     }
 
-    return res.status(200).json({ data: result });
+    return res.status(200).json(result);
   } catch (err) {
     return next(err);
   }
@@ -24,7 +22,7 @@ const getAll = (model) => async (req, res, next) => {
   try {
     const result = await query.getAll(model);
 
-    return res.status(200).json({ data: result });
+    return res.status(200).json(result);
   } catch (err) {
     return next(err);
   }
@@ -34,7 +32,7 @@ const createOne = (model) => async (req, res, next) => {
   try {
     const result = await query.createOne(model, req.body);
 
-    return res.status(201).json({ data: result });
+    return res.status(201).json(result);
   } catch (err) {
     return next(err);
   }
@@ -47,12 +45,10 @@ const updateOne = (model) => async (req, res, next) => {
 
     if (!result)
       return res.status(404).json({
-        data: {
-          error: `The ${model.modelName} with id '${id}' does not exist`,
-        },
+        error: `The ${model.modelName} with id '${id}' does not exist`,
       });
 
-    res.status(200).json({ data: result });
+    res.status(200).json(result);
   } catch (err) {
     return next(err);
   }
@@ -65,12 +61,10 @@ const removeOne = (model) => async (req, res, next) => {
 
     if (result.deletedCount === 0)
       return res.status(404).json({
-        data: {
-          error: `The ${model.modelName} with id '${id}' does not exist`,
-        },
+        error: `The ${model.modelName} with id '${id}' does not exist`,
       });
 
-    return res.status(200).json({ data: result });
+    return res.status(200).json(id);
   } catch (err) {
     return next(err);
   }
